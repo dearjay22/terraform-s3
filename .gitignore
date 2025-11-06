@@ -1,0 +1,58 @@
+# ---------------------------
+# Terraform
+# ---------------------------
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Ignore .terraform directories
+.terraform/
+.terraform.lock.hcl
+
+# Local variable files (sensitive)
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Plan output files
+*.plan
+
+# Override files (local custom configs)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Backup files
+*.bak
+*.tmp
+*.swp
+
+# macOS / Windows / Linux junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE/editor files
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# Environment variables or credentials
+.env
+.env.*
+*.pem
+*.key
+*.crt
+
+# Python (if you use helper scripts)
+__pycache__/
+*.pyc
