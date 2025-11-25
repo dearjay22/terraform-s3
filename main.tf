@@ -1,32 +1,20 @@
-resource "aws_s3_bucket" "this" {
-  bucket = var.bucket_name
-  tags   = var.tags
+locals {
+  bucket_names = [for i in range(1, var.bucket_count + 1) : "${var.student_id}-bucket${i}"]
 }
 
-# Enable versioning
-resource "aws_s3_bucket_versioning" "this" {
-  bucket = aws_s3_bucket.this.id
-  versioning_configuration {
-    status = var.versioning ? "Enabled" : "Suspended"
-  }
+
+resource "aws_s3_bucket" "student_buckets" {
+  for_each = toset(local.bucket_names)
+  bucket   = each.key
 }
 
-# Enable encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
-  bucket = aws_s3_bucket.this.bucket
 
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
+resource "aws_s3_object" "upload_file" {
+  for_each = aws_s3_bucket.student_buckets
 
-# Block public access
-resource "aws_s3_bucket_public_access_block" "this" {
-  bucket                  = aws_s3_bucket.this.id
-  block_public_acls        = true
-  block_public_policy      = true
-  ignore_public_acls       = true
-  restrict_public_buckets  = true
+
+  bucket = each.key
+  key    = "Jay-9062044.txt"
+  source = "files/Jay-9062044.txt"
+  etag   = filemd5("files/Jay-9062044.txt")
 }
